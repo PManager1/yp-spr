@@ -66,19 +66,19 @@ function getData() {
   // the Fetch API returns a Promise
   getCompanies()
     .then((response) => {
-      console.log('first result =', response); 
+      console.log('69--first result =', response); 
       // `.then()` is called after the request is complete
       // this is part of the Fetch API for handling JSON-encoded responses
       // return response.json();
     })
     .then((response) => {
       // We can do whatever we want with the data now!
-      console.log(response);
+      console.log('76--',response);
     })
 
     getStreetAddress()
     .then((response) => {
-      console.log('result for getStreetAddress =', response); 
+      console.log('81--result for getStreetAddress =', response); 
       // `.then()` is called after the request is complete
       // this is part of the Fetch API for handling JSON-encoded responses
       // return response.json();
