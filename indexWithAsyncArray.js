@@ -1,4 +1,5 @@
 
+const _ = require('lodash');
 const rp = require('request-promise');
 const otcsv = require('objects-to-csv');
 const cheerio = require('cheerio');
@@ -76,17 +77,21 @@ function getExample() {
     return Promise.all([a, b]).then(function([resultA, resultB]) {
         // more processing
         console.log(' resultB=', resultB);
-        console.log(' resultA=', resultA); 
+        console.log(' resultA=', resultA);
+
+
+    let output = _.merge(resultA, resultB);
         
-        return resultA;  // change it to first combing both objects. 
+        return output;  // change it to first combing both objects. 
    
     });
 }
 
 
 getExample().then(result => {
+
     const transformed = new otcsv(result);
-    return transformed.toDisk('./output3.csv');
+    return transformed.toDisk('./output5.csv');
   })
   .then(() => console.log('SUCCESSFULLY COMPLETED THE WEB SCRAPING SAMPLE'));
 
