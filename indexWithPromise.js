@@ -29,23 +29,12 @@ const getCompanies = async () => {
     const companyName= bizName.substring(0, bizName.length - 10);
 
 
-// console.log({
-//       emailAddress,
-//       link,
-//       name,
-//       phone,
-//       companyName,
-//       // address,
-//     }); 
-
-
     return {
       emailAddress,
       link,
       name,
       phone,
       companyName,
-      // address,
     }
   })
   .get();
@@ -53,14 +42,65 @@ const getCompanies = async () => {
 };
 
 
+// Function
+const getStreetAddress = async () => {
+  const html = await rp(baseURL + searchURL);
+  const businessMap = cheerio('div.street-address', html).map(async (i, e) => {
 
+    console.log('15-stree-address =', e.children[0].parent.children[0].data );
+    const streetAddress = e.children[0].parent.children[0].data;
+
+    return {
+      streetAddress,
+    }
+
+  }).get();
+  return Promise.all(getStreetAddress);
+};
+
+
+
+// CALLING EACH FUNCTIONS 
 getCompanies()
   .then(result => {
+    // result from first 
+    console.log('first result =', result); 
+
+    // combine the results here // add to the object. 
+    //
+
+    // const transformed = new otcsv(result);
+    // return transformed.toDisk('./output4.csv');
+  }). then(
+  getStreetAddress()
+  .then(result => {
+    // result from first 
+    console.log('getStreetAddress result =', result); 
+
+    // combine the results here // add to the object. 
+
     const transformed = new otcsv(result);
-    return transformed.toDisk('./output3.csv');
-  })
+    return transformed.toDisk('./output4.csv');
+  }))
   .then(() => console.log('SUCCESSFULLY COMPLETED THE WEB SCRAPING SAMPLE'));
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// sonole.log 
