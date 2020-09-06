@@ -17,11 +17,15 @@ const getCompanies = async () => {
     const name = e.children[0].data;
     const phone = cheerio('p.phone', innerHtml).text();
 
+    const bizName= link.substr(link.lastIndexOf('/') + 1);
+    const companyName= bizName.substring(0, bizName.length - 10);
+
     return {
       emailAddress,
       link,
       name,
       phone,
+      companyName,
     }
   }).get();
   return Promise.all(businessMap);
