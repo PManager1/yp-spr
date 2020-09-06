@@ -16,7 +16,7 @@ const getCompanies = async () => {
     // console.log('16-businessMap =', e.children ); 
     // console.log('16-businessMap =', e.parent ); 
 
-    // console.log('19-e.children[0] =', e.parent ); 
+    console.log('e.children[0] =', e.children[0].children[0].data ); 
 
     const link = baseURL + e.attribs.href;
     const innerHtml = await rp(link);
@@ -24,18 +24,20 @@ const getCompanies = async () => {
 
     const emailAddress = cheerio('a.email-business', innerHtml).prop('href');
     const name = e.children[0].data;
+
+    // OR 
+    // const name2 = e.children[0].data || cheerio('h1', innerHtml).text(); // original
+    // const name2 = cheerio('h1', innerHtml).text(); 
+    // console.log('36- name2 = ', name2); 
+
+
     const phone = cheerio('p.phone', innerHtml).text();
 
     // const address = cheerio('a.adr', innerHtml).text();
     // console.log('address =', address ); 
 
     const address2 = cheerio('a.adr', innerHtml).text();
-    // console.log('address2 =', address2 ); 
-
-    // const name2 = cheerio('h1', innerHtml).text(); 
-        const name2 = cheerio('h1', innerHtml).text(); 
-    console.log('36- name2 = ', name2); 
-
+    console.log('address2 =', address2 ); 
 
     const bizName= link.substr(link.lastIndexOf('/') + 1);
     const companyName= bizName.substring(0, bizName.length - 10);
