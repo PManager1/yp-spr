@@ -9,6 +9,7 @@ const searchURL = '/search?search_terms=Medical%20Ambulance&geo_location_terms=L
 
 // Function
 const getCompanies = async () => {
+  console.log(' calling getCompanies'); 
   const html = await rp(baseURL + searchURL);
   const businessMap = cheerio('a.business-name', html).map(async (i, e) => {
 
@@ -44,6 +45,7 @@ const getCompanies = async () => {
 
 // Function
 const getStreetAddress = async () => {
+  console.log(' calling getStreetAddress'); 
   const html = await rp(baseURL + searchURL);
   const businessMap = cheerio('div.street-address', html).map(async (i, e) => {
 
@@ -91,6 +93,25 @@ function getData() {
     });
 }
 getData();
+
+
+
+function runSerial() {
+    var that = this;
+    // task1 is a function that returns a promise (and immediately starts executing)
+    // task2 is a function that returns a promise (and immediately starts executing)
+    return Promise.resolve()
+        .then(function() {
+            return that.task1();
+        })
+        .then(function() {
+            return that.task2();
+        })
+        .then(function() {
+            console.log(" ---- done ----");
+        });
+}
+
 
 
 // userProfileData(); 
