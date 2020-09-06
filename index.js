@@ -12,12 +12,6 @@ const getCompanies = async () => {
   const html = await rp(baseURL + searchURL);
   const businessMap = cheerio('a.business-name', html).map(async (i, e) => {
 
-    // console.log('15-businessMap =', cheerio('a.business-name', html) ); // original
-    // console.log('16-businessMap =', e.children ); 
-    // console.log('16-businessMap =', e.parent ); 
-
-    // console.log('19-e.children[0] =', e.parent ); 
-
     const link = baseURL + e.attribs.href;
     const innerHtml = await rp(link);
 
@@ -26,14 +20,8 @@ const getCompanies = async () => {
     const name = e.children[0].data;
     const phone = cheerio('p.phone', innerHtml).text();
 
-    // const address = cheerio('a.adr', innerHtml).text();
-    // console.log('address =', address ); 
 
-    const address2 = cheerio('a.adr', innerHtml).text();
-    // console.log('address2 =', address2 ); 
-
-    // const name2 = cheerio('h1', innerHtml).text(); 
-        const name2 = cheerio('h1', innerHtml).text(); 
+    const name2 = cheerio('h1', innerHtml).text();  //do it the right way 
     console.log('36- name2 = ', name2); 
 
 
@@ -51,6 +39,8 @@ const getCompanies = async () => {
   }).get();
   return Promise.all(businessMap);
 };
+
+
 
 getCompanies()
   .then(result => {
