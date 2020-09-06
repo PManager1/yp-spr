@@ -77,11 +77,19 @@ function getExample() {
         // more processing
         console.log(' resultB=', resultB);
         console.log(' resultA=', resultA); 
-        return // something using both resultA and resultB
+        
+        return resultA;  // change it to first combing both objects. 
+   
     });
 }
 
-getExample(); 
+
+getExample().then(result => {
+    const transformed = new otcsv(result);
+    return transformed.toDisk('./output3.csv');
+  })
+  .then(() => console.log('SUCCESSFULLY COMPLETED THE WEB SCRAPING SAMPLE'));
+
 
 
 
