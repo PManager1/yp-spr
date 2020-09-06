@@ -31,11 +31,10 @@ const getCompanies = async () => {
   return Promise.all(businessMap);
 };
 
-
 getCompanies()
   .then(result => {
     const transformed = new otcsv(result);
-    return transformed.toDisk('./output.csv');
+    return transformed.toDisk('./output3.csv');
   })
   .then(() => console.log('SUCCESSFULLY COMPLETED THE WEB SCRAPING SAMPLE'));
 
