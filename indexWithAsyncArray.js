@@ -113,6 +113,24 @@ const getCompanyName = async () => {
 };
 
 
+
+const getCityState = async () => {
+  console.log(' calling getCityState'); 
+  const html = await rp(baseURL + searchURL);
+  const businessMap = cheerio('div.locality', html).map(async (i, e) => {
+
+   console.log('15-stree-address =', );
+
+   const City = e.children[0].parent.children[0].data; 
+
+    return {
+        City,
+    }
+  }).get();
+  return Promise.all(businessMap);
+};
+
+
 // COMBINING ONE AFTER ANOTHER CALL 
 
 function getExample() {
@@ -125,14 +143,20 @@ function getExample() {
         // some processing
         return getCompanyName();
     });
-    return Promise.all([a, b, c ]).then(function([resultA, resultB, resultC]) {
+
+    let d = c.then(function(resultC) {
+        // some processing
+        return getCityState();
+    });
+    return Promise.all([a, b,c,d ]).then(function([resultA, resultB, resultC, resultD]) {
         // more processing
         console.log(' resultB=', resultB);
         console.log(' resultA=', resultA);
         console.log(' resultC=', resultC);
+        console.log(' resultD=', resultD);
 
 
-    let output = _.merge(resultA, resultB, resultC);
+    let output = _.merge(resultA, resultB, resultC, resultD);
 
       console.log('110-  output =', output );
         
@@ -145,7 +169,7 @@ function getExample() {
 getExample().then(result => {
 
     const transformed = new otcsv(result);
-    return transformed.toDisk('./output7.csv');
+    return transformed.toDisk('./output8.csv');
   })
   .then(() => console.log('SUCCESSFULLY COMPLETED THE WEB SCRAPING SAMPLE'));
 
