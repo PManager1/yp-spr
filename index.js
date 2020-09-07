@@ -7,7 +7,7 @@ const cheerio = require('cheerio');
 
 
 const baseURL = 'https://www.yellowpages.com';
-const searchURL = '/search?search_terms=Medical+Ambulance&geo_location_terms=San+Diego%2C+CA';
+const searchURL = '/search?search_terms=Medical%20Ambulance&geo_location_terms=marin%20county';
 
 // Function
 const getCompanies = async () => {
@@ -30,7 +30,7 @@ const getCompanies = async () => {
 
     return {
       emailAddress,
-      link,
+      // link,
       phone,
     }
   })
@@ -142,7 +142,7 @@ function getExample() {
 getExample().then(result => {
 
     const transformed = new otcsv(result);
-    return transformed.toDisk('./output_SanDiego_1.csv');
+    return transformed.toDisk('./OrangeCnty.csv');
   })
   .then(() => console.log('SUCCESSFULLY COMPLETED THE WEB SCRAPING SAMPLE'));
 
