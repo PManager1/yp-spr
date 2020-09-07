@@ -28,12 +28,12 @@ const getCompanies = async () => {
     const phone = cheerio('p.phone', innerHtml).text();
 
 
-    const name2 = cheerio('h1', innerHtml).text();  //do it the right way 
+    // const name2 = cheerio('h1', innerHtml).text();  //do it the right way 
     // console.log('36- name2 = ', name2); 
 
 
-    const bizName= link.substr(link.lastIndexOf('/') + 1);
-    const companyName= bizName.substring(0, bizName.length - 10);
+    // const bizName= link.substr(link.lastIndexOf('/') + 1);
+    // const companyName= bizName.substring(0, bizName.length - 10);
 
 
     // console.log('before returning getCompanies');
@@ -41,9 +41,9 @@ const getCompanies = async () => {
     return {
       emailAddress,
       link,
-      name,
+      // name,
       phone,
-      companyName,
+      // companyName,
     }
   })
   .get();
@@ -68,22 +68,7 @@ const getStreetAddress = async () => {
 
     const streetAddress =  e.children[0].parent.children[0].data || "???"
 
-    // if ( streetAddress === '' || null  ){
-    //     console.log('61 - STREET ADDRESS is EMPTY ');
-    //     streetAddress =  '-'; 
-    // }
-
-// $.prototype.exists = function (streetAddress) {
-//   if ( this.find(streetAddress).length > 0 ){
-//     console.log(' yes exits ')
-//   } else {
-//     console.log('NO NO Dont Exits ')
-//   }
-// }
-
-  //   // if (streetAddress.length) {
-  // if (find(streetAddress).length > 0){
-
+    
   //     console.log('68-i=', i); 
   //   console.log('69-It exists!  streetAddress.length=', streetAddress.length);
   // } else {
@@ -140,11 +125,11 @@ function getExample() {
         // some processing
         return getCompanyName();
     });
-    return Promise.all([a, b]).then(function([resultA, resultB, resultC]) {
+    return Promise.all([a, b, c ]).then(function([resultA, resultB, resultC]) {
         // more processing
-        // console.log(' resultB=', resultB);
-        // console.log(' resultA=', resultA);
-        // console.log(' resultC=', resultC);
+        console.log(' resultB=', resultB);
+        console.log(' resultA=', resultA);
+        console.log(' resultC=', resultC);
 
 
     let output = _.merge(resultA, resultB, resultC);
