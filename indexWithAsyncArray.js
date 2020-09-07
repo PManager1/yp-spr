@@ -8,7 +8,7 @@ const cheerio = require('cheerio');
 
 
 const baseURL = 'https://www.yellowpages.com';
-const searchURL = '/search?search_terms=Medical%20Ambulance&geo_location_terms=Los%20Angeles%2C%20CA&page=2';
+const searchURL = '/search?search_terms=Medical%20Ambulance&geo_location_terms=Los%20Angeles%2C%20CA&page=3';
 
 // Function
 const getCompanies = async () => {
@@ -28,22 +28,11 @@ const getCompanies = async () => {
     const phone = cheerio('p.phone', innerHtml).text();
 
 
-    // const name2 = cheerio('h1', innerHtml).text();  //do it the right way 
-    // console.log('36- name2 = ', name2); 
-
-
-    // const bizName= link.substr(link.lastIndexOf('/') + 1);
-    // const companyName= bizName.substring(0, bizName.length - 10);
-
-
-    // console.log('before returning getCompanies');
 
     return {
       emailAddress,
       link,
-      // name,
       phone,
-      // companyName,
     }
   })
   .get();
@@ -160,7 +149,7 @@ function getExample() {
 
       console.log('110-  output =', output );
         
-        return output;  // change it to first combing both objects. 
+        return output;  
    
     });
 }
@@ -169,7 +158,7 @@ function getExample() {
 getExample().then(result => {
 
     const transformed = new otcsv(result);
-    return transformed.toDisk('./output8.csv');
+    return transformed.toDisk('./output_LosAng_page3.csv');
   })
   .then(() => console.log('SUCCESSFULLY COMPLETED THE WEB SCRAPING SAMPLE'));
 
