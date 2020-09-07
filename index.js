@@ -7,7 +7,7 @@ const cheerio = require('cheerio');
 
 
 const baseURL = 'https://www.yellowpages.com';
-const searchURL = '/search?search_terms=Medical%20Ambulance&geo_location_terms=Los%20Angeles%2C%20CA&page=3';
+const searchURL = '/search?search_terms=Medical+Ambulance&geo_location_terms=San+Diego%2C+CA';
 
 // Function
 const getCompanies = async () => {
@@ -45,25 +45,10 @@ const getStreetAddress = async () => {
   const html = await rp(baseURL + searchURL);
   let businessMap = cheerio('div.street-address', html).map(async (i, e) => {
 
-    // console.log('15-stree-address =', e.children[0].parent.children[0].data );
-    // const streetAddress = e.children[0].parent.children[0].data;
-
-  // console.log('before returning getStreetAddress');
-
-    // console.log('60--streetAddress =', streetAddress ); 
-
-    // const streetAddress = e.children[0].parent.children[0].data || 'No Street Address Provided';
-
+  
     const streetAddress =  e.children[0].parent.children[0].data || "???"
 
-    
-  //     console.log('68-i=', i); 
-  //   console.log('69-It exists!  streetAddress.length=', streetAddress.length);
-  // } else {
-  //   console.log('70-Does not exist')
-  // }
-
-
+  
     return {
       streetAddress,
     }
@@ -157,7 +142,7 @@ function getExample() {
 getExample().then(result => {
 
     const transformed = new otcsv(result);
-    return transformed.toDisk('./output_LosAng_page3.csv');
+    return transformed.toDisk('./output_SanDiego_1.csv');
   })
   .then(() => console.log('SUCCESSFULLY COMPLETED THE WEB SCRAPING SAMPLE'));
 
