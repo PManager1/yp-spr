@@ -1,8 +1,10 @@
-
+// const $ = require ('jquery');
 const _ = require('lodash');
 const rp = require('request-promise');
 const otcsv = require('objects-to-csv');
 const cheerio = require('cheerio');
+
+
 
 
 const baseURL = 'https://www.yellowpages.com';
@@ -12,6 +14,9 @@ const searchURL = '/search?search_terms=Medical%20Ambulance&geo_location_terms=L
 const getCompanies = async () => {
   console.log(' calling getCompanies'); 
   const html = await rp(baseURL + searchURL);
+
+  const $ = cheerio.load(html);
+
   const businessMap = cheerio('a.business-name', html).map(async (i, e) => {
 
     const link = baseURL + e.attribs.href;
@@ -50,18 +55,75 @@ const getCompanies = async () => {
 const getStreetAddress = async () => {
   console.log(' calling getStreetAddress'); 
   const html = await rp(baseURL + searchURL);
-  const businessMap = cheerio('div.street-address', html).map(async (i, e) => {
+  let businessMap = cheerio('div.street-address', html).map(async (i, e) => {
 
     // console.log('15-stree-address =', e.children[0].parent.children[0].data );
-    const streetAddress = e.children[0].parent.children[0].data;
+    // const streetAddress = e.children[0].parent.children[0].data;
 
   // console.log('before returning getStreetAddress');
+
+    // console.log('60--streetAddress =', streetAddress ); 
+
+    // const streetAddress = e.children[0].parent.children[0].data || 'No Street Address Provided';
+
+    const streetAddress =  e.children[0].parent.children[0].data || "???"
+
+    // if ( streetAddress === '' || null  ){
+    //     console.log('61 - STREET ADDRESS is EMPTY ');
+    //     streetAddress =  '-'; 
+    // }
+
+// $.prototype.exists = function (streetAddress) {
+//   if ( this.find(streetAddress).length > 0 ){
+//     console.log(' yes exits ')
+//   } else {
+//     console.log('NO NO Dont Exits ')
+//   }
+// }
+
+  //   // if (streetAddress.length) {
+  // if (find(streetAddress).length > 0){
+
+  //     console.log('68-i=', i); 
+  //   console.log('69-It exists!  streetAddress.length=', streetAddress.length);
+  // } else {
+  //   console.log('70-Does not exist')
+  // }
+
+
     return {
       streetAddress,
     }
 
   })
   .get();
+
+  // businessMap = streetAddress || 'No Street Address Provided';
+
+  return Promise.all(businessMap);
+};
+
+
+
+const getCompanyName = async () => {
+  const html = await rp(baseURL + searchURL);
+  const businessMap = cheerio('a.business-name', html).map(async (i, e) => {
+
+    // console.log('e.children[0] =', e.children[0].children[0].data ); 
+
+    const link = baseURL + e.attribs.href;
+    const innerHtml = await rp(link);
+
+    const CompanyName = cheerio('h1', innerHtml).text(); 
+
+    if ( CompanyName === ''  ){
+        CompanyName =  '-'; 
+    }
+
+    return {
+      CompanyName,
+    }
+  }).get();
   return Promise.all(businessMap);
 };
 
@@ -69,18 +131,25 @@ const getStreetAddress = async () => {
 // COMBINING ONE AFTER ANOTHER CALL 
 
 function getExample() {
-    var a = getCompanies();
-    var b = a.then(function(resultA) {
+    let a = getCompanies();
+    let b = a.then(function(resultA) {
         // some processing
         return getStreetAddress();
     });
-    return Promise.all([a, b]).then(function([resultA, resultB]) {
+    let c = b.then(function(resultB) {
+        // some processing
+        return getCompanyName();
+    });
+    return Promise.all([a, b]).then(function([resultA, resultB, resultC]) {
         // more processing
-        console.log(' resultB=', resultB);
-        console.log(' resultA=', resultA);
+        // console.log(' resultB=', resultB);
+        // console.log(' resultA=', resultA);
+        // console.log(' resultC=', resultC);
 
 
-    let output = _.merge(resultA, resultB);
+    let output = _.merge(resultA, resultB, resultC);
+
+      console.log('110-  output =', output );
         
         return output;  // change it to first combing both objects. 
    
@@ -91,7 +160,7 @@ function getExample() {
 getExample().then(result => {
 
     const transformed = new otcsv(result);
-    return transformed.toDisk('./output5.csv');
+    return transformed.toDisk('./output7.csv');
   })
   .then(() => console.log('SUCCESSFULLY COMPLETED THE WEB SCRAPING SAMPLE'));
 
