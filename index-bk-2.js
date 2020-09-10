@@ -8,12 +8,7 @@ const cheerio = require('cheerio');
 const baseURL = 'https://www.yellowpages.com';
 // const searchURL = '/search?search_terms=medical%20transport&geo_location_terms=Whittier%2C%20CA&page=5';
 const FullURL = 'https://www.yellowpages.com/search?search_terms=Medical%20Transportation%20Inc&geo_location_terms=Agoura%20Hills%2C%20CA&page=5';
- 
-
-function transformFunction (result){
-  const transformed = new otcsv(result);
-    return transformed.toDisk('./AgouraHills_5.csv');
-}
+                 
 
 // Function
 const getCompanies = async () => {
@@ -60,7 +55,10 @@ async function getExample() {
 
 }
 
-
+  function transformFunction (result){
+  const transformed = new otcsv(result);
+    return transformed.toDisk('./AgouraHills_5.csv');
+}
 
 getExample().then(result => {
     // const transformed = new otcsv(result);
